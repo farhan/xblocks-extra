@@ -21,3 +21,5 @@ class FreeTextResponse(
     """
     XBlock to capture a free-text response.
     """
+
+    i18n_js_namespace = "XBlockFreeTextResponseI18N"

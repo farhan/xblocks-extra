@@ -15,6 +15,18 @@ function SqlGrader(runtime, element) {
 	var $submit = $("button.submit", element);
 	var $textarea = $("textarea", element);
 	var textarea = $textarea[0];
+
+	/**
+	 * Use this block's translation catalog (window.XBlockSqlGraderI18N, loaded by the
+	 * block's view) and fall back to the platform's global catalog.
+	 * @param {String} msgid - the string to translate
+	 * @returns {String} the translated string
+	 */
+	function gettext(msgid) {
+		var catalog = window.XBlockSqlGraderI18N || window;
+		return catalog.gettext ? catalog.gettext(msgid) : msgid;
+	}
+
 	var options = {
 		value: $textarea.val(),
 		mode: "text/x-sql",
@@ -76,7 +88,7 @@ function SqlGrader(runtime, element) {
 		if (result[dataType].length) {
 			$message.empty();
 		} else {
-			$message.text("Empty result");
+			$message.text(gettext("Empty result"));
 		}
 	}
 
@@ -86,13 +98,14 @@ function SqlGrader(runtime, element) {
 	 * @returns {undefined} nothing
 	 */
 	function checkResult(result) {
-		var text = "Incorrect";
+		var text = gettext("Incorrect");
 		if (result.error) {
-			text = "Error: ";
-			text += result.error;
+			text = gettext("Error: {error}").replace("{error}", function () {
+				return result.error;
+			});
 			$correctness.addClass("error");
 		} else if (result.comparison) {
-			text = "Correct";
+			text = gettext("Correct");
 			$correctness.removeClass("error");
 		}
 		$correctness.text(text);
