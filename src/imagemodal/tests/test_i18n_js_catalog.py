@@ -15,7 +15,7 @@ class I18nJsCatalogTest(unittest.TestCase):
     Tests for loading the block's namespaced JavaScript translation catalog
     """
 
-    def _js_urls(self, i18n_service):
+    def _js_urls(self, i18n_service, js=("view.js",)):
         """
         Build a fragment with the block's JS and return its JavaScript URLs in order
         """
@@ -24,7 +24,7 @@ class I18nJsCatalogTest(unittest.TestCase):
             local_resource_url=Mock(side_effect=lambda _block, path: f"/resource/{path}"),
         )
         block = ImageModal(runtime, DictFieldData({}), Mock())
-        fragment = block.build_fragment(js=["view.js"])
+        fragment = block.build_fragment(js=list(js))
         return [r.data for r in fragment.resources if r.mimetype == "application/javascript"]
 
     def test_namespace(self):
@@ -45,3 +45,12 @@ class I18nJsCatalogTest(unittest.TestCase):
         for i18n_service in (no_catalog, Mock(spec=[])):
             with self.subTest(i18n_service=i18n_service):
                 assert self._js_urls(i18n_service) == ["/resource/public/view.js"]
+
+    def test_no_catalog_without_js(self):
+        """
+        No catalog is added when the fragment has no JS
+        """
+        i18n_service = Mock()
+        i18n_service.get_javascript_i18n_catalog_url.return_value = "/static/catalog.js"
+
+        assert not self._js_urls(i18n_service, js=())
