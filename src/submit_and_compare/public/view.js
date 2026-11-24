@@ -84,7 +84,7 @@ function SubmitAndCompareXBlockInitView(runtime, element) {
     }
 
     function pre_submit() {
-        problem_progress.text('(Loading...)');
+        problem_progress.text(gettext('(Loading...)'));
     }
 
     function post_submit(result) {
