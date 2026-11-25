@@ -27,6 +27,17 @@ function ImageModalView(runtime, element) {
     var buttonZoomIcon = buttonZoom.find('I');
 
     /**
+     * Use this block's translation catalog (window.XBlockImageModalI18N, loaded by the
+     * block's view) and fall back to the platform's global catalog.
+     * @param {String} msgid - the string to translate
+     * @returns {String} the translated string
+     */
+    function gettext(msgid) {
+        var catalog = window.XBlockImageModalI18N || window;
+        return catalog.gettext ? catalog.gettext(msgid) : msgid;
+    }
+
+    /**
      * Prevent the default event from bubbling up
      * @returns {boolean} False to stop event bubbling
      */
@@ -46,7 +57,7 @@ function ImageModalView(runtime, element) {
         var imageWidth;
         var imageHeight;
 
-        buttonZoomText.text('Zoom Out');
+        buttonZoomText.text(gettext('Zoom Out'));
         buttonZoomIcon.removeClass('icon-zoom-in');
         buttonZoomIcon.addClass('icon-zoom-out');
         image.off('.imagemodal');
@@ -101,7 +112,7 @@ function ImageModalView(runtime, element) {
      * @returns {undefined} nothing
      */
     function zoomOut() {
-        buttonZoomText.text('Zoom In');
+        buttonZoomText.text(gettext('Zoom In'));
         buttonZoomIcon.removeClass('icon-zoom-out');
         buttonZoomIcon.addClass('icon-zoom-in');
         image.off('.imagemodal');

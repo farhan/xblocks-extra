@@ -19,3 +19,5 @@ class ImageModal(
     """
     A fullscreen image modal XBlock.
     """
+
+    i18n_js_namespace = "XBlockImageModalI18N"

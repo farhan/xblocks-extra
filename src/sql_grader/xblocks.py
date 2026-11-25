@@ -39,6 +39,8 @@ class SqlGrader(
     A custom submission type to evaluate SQL queries
     """
 
+    i18n_js_namespace = "XBlockSqlGraderI18N"
+
     loader = ResourceLoader(__name__)
     public_dir = "static"
     static_css = [

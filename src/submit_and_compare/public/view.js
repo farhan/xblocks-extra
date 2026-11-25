@@ -37,6 +37,18 @@ function SubmitAndCompareXBlockInitView(runtime, element) {
     var cached_answer_id = xblock_id + '_cached_answer';
     var problem_progress_id = xblock_id + '_problem_progress';
     var used_attempts_feedback_id = xblock_id + '_used_attempts_feedback';
+
+    /**
+     * Use this block's translation catalog (window.XBlockSubmitAndCompareI18N, loaded by the
+     * block's view) and fall back to the platform's global catalog.
+     * @param {String} msgid - the string to translate
+     * @returns {String} the translated string
+     */
+    function gettext(msgid) {
+        var catalog = window.XBlockSubmitAndCompareI18N || window;
+        return catalog.gettext ? catalog.gettext(msgid) : msgid;
+    }
+
     if (typeof $xblocksContainer.data(cached_answer_id) !== 'undefined') {
         answer_textarea.text($xblocksContainer.data(cached_answer_id));
         problem_progress.text($xblocksContainer.data(problem_progress_id));
@@ -72,7 +84,7 @@ function SubmitAndCompareXBlockInitView(runtime, element) {
     }
 
     function pre_submit() {
-        problem_progress.text('(Loading...)');
+        problem_progress.text(gettext('(Loading...)'));
     }
 
     function post_submit(result) {
@@ -87,7 +99,7 @@ function SubmitAndCompareXBlockInitView(runtime, element) {
     function show_answer() {
         your_answer.css('display', 'block');
         expert_answer.css('display', 'block');
-        submit_button.val('Resubmit');
+        submit_button.val(gettext('Resubmit'));
 
     }
 

@@ -33,6 +33,19 @@ class XBlockFragmentBuilderMixin:
         context = dict(context)
         return context
 
+    def _add_i18n_js_catalog(self, fragment):
+        """
+        Add this block's JavaScript translation catalog to the fragment, if the runtime provides one.
+
+        The catalog defines ``window.XBlockSqlGraderI18N`` (see ``i18n_js_namespace``).
+        Add it before the block's own JS.
+        """
+        i18n_service = self.runtime.service(self, "i18n")
+        url_getter = getattr(i18n_service, "get_javascript_i18n_catalog_url", None)
+        url = url_getter(self) if url_getter else None
+        if url:
+            fragment.add_javascript_url(url)
+
     @XBlock.supports("multi_device")
     def student_view(self, context=None):
         """
@@ -83,6 +96,8 @@ class XBlockFragmentBuilderMixin:
                 item = "static/" + item
                 url = self.runtime.local_resource_url(self, item)
             fragment.add_css_url(url)
+        if js_files:
+            self._add_i18n_js_catalog(fragment)
         for item in js_files:
             item = "static/" + item
             url = self.runtime.local_resource_url(self, item)

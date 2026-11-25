@@ -23,3 +23,5 @@ class SubmitAndCompareXBlock(
     """
     A Submit-And-Compare XBlock
     """
+
+    i18n_js_namespace = "XBlockSubmitAndCompareI18N"

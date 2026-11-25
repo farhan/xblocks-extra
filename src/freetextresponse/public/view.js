@@ -31,6 +31,17 @@ function FreeTextResponseView(runtime, element) {
     var problemProgressId = xblockId + '_problem_progress';
     var usedAttemptsFeedbackId = xblockId + '_used_attempts_feedback';
 
+    /**
+     * Use this block's translation catalog (window.XBlockFreeTextResponseI18N, loaded by the
+     * block's view) and fall back to the platform's global catalog.
+     * @param {String} msgid - the string to translate
+     * @returns {String} the translated string
+     */
+    function gettext(msgid) {
+        var catalog = window.XBlockFreeTextResponseI18N || window;
+        return catalog.gettext ? catalog.gettext(msgid) : msgid;
+    }
+
     if (typeof $xblocksContainer.data(cachedAnswerId) !== 'undefined') {
         textareaStudentAnswer.val($xblocksContainer.data(cachedAnswerId));
         problemProgress.text($xblocksContainer.data(problemProgressId));
@@ -95,7 +106,7 @@ function FreeTextResponseView(runtime, element) {
     buttonSubmit.on('click', function () {
         buttonSubmit.text(buttonSubmit[0].dataset.checking);
         runtime.notify('submit', {
-            message: 'Submitting...',
+            message: gettext('Submitting...'),
             state: 'start',
         });
         $.ajax(url, {
@@ -135,7 +146,7 @@ function FreeTextResponseView(runtime, element) {
     buttonSave.on('click', function () {
         buttonSave.text(buttonSave[0].dataset.checking);
         runtime.notify('save', {
-            message: 'Saving...',
+            message: gettext('Saving...'),
             state: 'start',
         });
         $.ajax(urlSave, {
