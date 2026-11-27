@@ -14,16 +14,21 @@ from xblock.utils.resources import ResourceLoader
 try:
     from lms.djangoapps.courseware.block_render import get_block_by_usage_id, load_single_xblock
     from openedx.core.djangoapps.enrollments.data import get_user_enrollments
-    from xmodule.modulestore.django import XBlockI18nService, modulestore
+    from xmodule.modulestore.django import modulestore
 
     from feedback.utils import get_lms_link_for_item
 except ImportError:
     load_single_xblock = None
     get_block_by_usage_id = None
     modulestore = None
-    XBlockI18nService = None
     get_user_enrollments = None
     get_lms_link_for_item = None
+
+# Imported on its own so that, if it moves, the tab still renders (in English).
+try:
+    from xmodule.modulestore.django import XBlockI18nService
+except ImportError:
+    XBlockI18nService = None
 
 TEMPLATE_ABSOLUTE_PATH = "/instructor_dashboard/"
 BLOCK_CATEGORY = "feedback"
