@@ -11,7 +11,15 @@ from django.test.utils import override_settings
 from feedback.extensions import filters
 from feedback.extensions.filters import AddFeedbackTab, load_xblock_answers
 
-TEMPLATE_MESSAGES = ("Component", "Number of ratings", "Average rating", "Comment", "Vote", "No vote")
+TEMPLATE_MESSAGES = (
+    "Component",
+    "Number of ratings",
+    "Average rating",
+    "Feedback ",
+    "Comment",
+    "Vote",
+    "No vote",
+)
 
 
 class FakeBlockCatalog(gettext.NullTranslations):
